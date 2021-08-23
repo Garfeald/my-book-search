@@ -21,6 +21,7 @@ import {fetchBooksAsync} from "../../redux/actions";
 import {AppState} from "../../redux/reducers/rootReducer";
 import {IBooksStore} from "../../redux/types";
 import './index.scss';
+import Pagination from '@material-ui/lab/Pagination';
 import { CardsList } from '../CardsList';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -83,6 +84,11 @@ const useStyles = makeStyles((theme: Theme) =>
                 width: '50ch',
             },
         },
+        pagination: {
+            '& > *': {
+                marginTop: theme.spacing(2),
+              },
+        }
     }),
 );
 
@@ -106,7 +112,8 @@ export default function PrimarySearchAppBar() {
     const base = 'Menu'
 
     return (
-        <div className={classes.grow}>
+        <>
+            <div className={classes.grow}>
             <AppBar position="static" className={classes.toolBar}>
                 <Toolbar className={`${base}__tool-bar`}>
                     <Typography className={classes.title} variant="h6" noWrap>
@@ -136,6 +143,10 @@ export default function PrimarySearchAppBar() {
                     <div className={classes.grow} />
                 </Toolbar>
             </AppBar>
-        </div>
+            </div>
+            <div className={classes.pagination}>
+                <Pagination count={10} color="primary" />
+            </div>
+        </>
     );
 }
