@@ -89,6 +89,12 @@ export interface IVolumeInfo {
     title: string;
 }
 
+export interface IBooksStore {
+    bookInfo: IBooks[] | null;
+    isLoading?: boolean;
+    searchValue?: string
+}
+
 // action types
 
 export const FETCH_BOOKS_ASYNC = 'FETCH_BOOKS_ASYNC'
@@ -97,5 +103,12 @@ export type FetchBooksAsync = {
     payload: string
 }
 
-export type BooksSearchTypes =
-    | FetchBooksAsync;
+export const ADD_FETCHED_BOOKS = 'ADD_FETCHED_BOOKS'
+export type AddFetchedBooks = {
+    type: typeof ADD_FETCHED_BOOKS;
+    payload: IBooks[]
+}
+
+export type BooksSearchActionTypes =
+    | FetchBooksAsync
+    | AddFetchedBooks;

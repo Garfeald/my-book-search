@@ -16,6 +16,10 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import {Button} from "@material-ui/core";
 import {api} from "../../services/api/api";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchBooksAsync} from "../../redux/actions";
+import {AppState} from "../../redux/reducers/rootReducer";
+import {IBooksStore} from "../../redux/types";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -80,17 +84,20 @@ export default function PrimarySearchAppBar() {
 
     const [inputValue, setInputValue] = useState<string>()
 
+    const dispatch = useDispatch()
+
     const onChangeInput = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { value } = e.target
         setInputValue(value)
     }
 
-    const fetchBook = async () => {
-        const res = inputValue && await api.fetch.fetchBooks(inputValue)
-        if (res) {
-            console.log(res.data.items)
-        }
+    const onFetchBook = async () => {
+        inputValue && dispatch(fetchBooksAsync(inputValue))
     }
+
+    const { bookInfo } = useSelector<AppState, IBooksStore>(state => state.books)
+
+    console.log('BOOKS!!!', bookInfo)
 
     return (
         <div className={classes.grow}>
@@ -116,7 +123,7 @@ export default function PrimarySearchAppBar() {
                     </div>
                     <Button
                         variant="contained"
-                        onClick={fetchBook}
+                        onClick={onFetchBook}
                     >
                         Search
                     </Button>
