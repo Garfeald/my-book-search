@@ -4,9 +4,11 @@ export interface IBooks {
     id: string;
     kind: string;
     saleInfo: ISaleInfo;
-    searchInfo: any;
+    searchInfo: {
+        textSnippet: string;
+    };
     selfLink: string;
-    volumeInfo: any;
+    volumeInfo: IVolumeInfo;
 }
 
 export interface IAccessInfo {
@@ -53,3 +55,47 @@ export interface ISaleInfo {
     }
     saleability: string;
 }
+
+export interface IVolumeInfo {
+    allowAnonLogging: boolean;
+    authors: string[];
+    canonicalVolumeLink: string;
+    categories: string[];
+    contentVersion: string;
+    description: string;
+    imageLinks: {
+        smallThumbnail: string;
+        thumbnail: string;
+    }
+    industryIdentifiers: [{
+        identifier: string;
+        type: string;
+    }]
+    infoLink: string;
+    language: string;
+    maturityRating: string;
+    pageCount: number;
+    panelizationSummary: {
+        containsEpubBubbles: boolean;
+        containsImageBubbles: boolean;
+    }
+    previewLink: string;
+    printType: string;
+    publishedDate: string;
+    readingModes: {
+        image: boolean;
+        text: boolean;
+    }
+    title: string;
+}
+
+// action types
+
+export const FETCH_BOOKS_ASYNC = 'FETCH_BOOKS_ASYNC'
+export type FetchBooksAsync = {
+    type: typeof FETCH_BOOKS_ASYNC;
+    payload: string
+}
+
+export type BooksSearchTypes =
+    | FetchBooksAsync;

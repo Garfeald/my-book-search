@@ -83,7 +83,6 @@ export default function PrimarySearchAppBar() {
     const onChangeInput = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { value } = e.target
         setInputValue(value)
-        console.log('VALUE!!!!', inputValue, 'Asiatic Journal and Monthly Miscellany')
     }
 
     const fetchBook = async () => {
