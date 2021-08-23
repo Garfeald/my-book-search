@@ -95,6 +95,13 @@ export interface IBooksStore {
     searchValue?: string
 }
 
+export type CardProps = {
+    image: string,
+    title: string,
+    categories: string,
+    authors: string
+}
+
 // action types
 
 export const FETCH_BOOKS_ASYNC = 'FETCH_BOOKS_ASYNC'
@@ -109,6 +116,20 @@ export type AddFetchedBooks = {
     payload: IBooks[]
 }
 
+export const FETCH_BOOK_BY_ID = 'FETCH_BOOK_BY_ID'
+export type FetchBookById = {
+    type: typeof FETCH_BOOK_BY_ID;
+    payload: string
+}
+
+export const ADD_FETCHED_BOOK_BY_ID = 'ADD_FETCHED_BOOK_BY_ID'
+export type AddFetchedBookById = {
+    type: typeof ADD_FETCHED_BOOK_BY_ID;
+    payload: IBooks[]
+}
+
 export type BooksSearchActionTypes =
     | FetchBooksAsync
-    | AddFetchedBooks;
+    | AddFetchedBooks
+    | FetchBookById
+    | AddFetchedBookById;

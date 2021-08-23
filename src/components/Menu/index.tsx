@@ -20,13 +20,20 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchBooksAsync} from "../../redux/actions";
 import {AppState} from "../../redux/reducers/rootReducer";
 import {IBooksStore} from "../../redux/types";
+import './index.scss';
+import { CardsList } from '../CardsList';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         grow: {
-            flexGrow: 1,
+            position: 'fixed',
+            top: 0,
+            width: '100%',
+            zIndex: 1000,
         },
         title: {
+            fontFamily: 'Abril Fatface, cursiv',
+            fontSize: '33px',
             display: 'none',
             [theme.breakpoints.up('sm')]: {
                 display: 'block',
@@ -91,18 +98,17 @@ export default function PrimarySearchAppBar() {
         setInputValue(value)
     }
 
-    const onFetchBook = async () => {
+    const onFetchBooks = async () => {
         inputValue && dispatch(fetchBooksAsync(inputValue))
+        setInputValue('')
     }
 
-    const { bookInfo } = useSelector<AppState, IBooksStore>(state => state.books)
-
-    console.log('BOOKS!!!', bookInfo)
+    const base = 'Menu'
 
     return (
         <div className={classes.grow}>
             <AppBar position="static" className={classes.toolBar}>
-                <Toolbar >
+                <Toolbar className={`${base}__tool-bar`}>
                     <Typography className={classes.title} variant="h6" noWrap>
                         Search for books
                     </Typography>
@@ -123,7 +129,7 @@ export default function PrimarySearchAppBar() {
                     </div>
                     <Button
                         variant="contained"
-                        onClick={onFetchBook}
+                        onClick={onFetchBooks}
                     >
                         Search
                     </Button>
