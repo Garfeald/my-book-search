@@ -1,3 +1,5 @@
+import { type } from "os"
+
 export interface IBooks {
     accessInfo: IAccessInfo;
     etag: string;
@@ -92,14 +94,31 @@ export interface IVolumeInfo {
 export interface IBooksStore {
     bookInfo: IBooks[] | null;
     isLoading?: boolean;
-    searchValue?: string
+    searchValue?: FetchBooksPayload | null;
+}
+
+export interface IBookDetails {
+    bookDetails: IBooks[] | null;
+    isLoading?: boolean;
+    searchValue?: string;
+}
+
+export interface ITotalItams {
+    totalItems: number | null;
+    isLoading?: boolean;
 }
 
 export type CardProps = {
     image: string,
     title: string,
     categories: string,
-    authors: string
+    authors: string,
+    id: string
+}
+
+export type FetchBooksPayload = {
+    searchValue: string,
+    pageNumber: number
 }
 
 // action types
@@ -107,7 +126,7 @@ export type CardProps = {
 export const FETCH_BOOKS_ASYNC = 'FETCH_BOOKS_ASYNC'
 export type FetchBooksAsync = {
     type: typeof FETCH_BOOKS_ASYNC;
-    payload: string
+    payload: FetchBooksPayload
 }
 
 export const ADD_FETCHED_BOOKS = 'ADD_FETCHED_BOOKS'
@@ -116,9 +135,15 @@ export type AddFetchedBooks = {
     payload: IBooks[]
 }
 
-export const FETCH_BOOK_BY_ID = 'FETCH_BOOK_BY_ID'
-export type FetchBookById = {
-    type: typeof FETCH_BOOK_BY_ID;
+export const ADD_TOTAL_ITEMS = 'ADD_TOTAL_ITEMS'
+export type AddTotalItems = {
+    type: typeof ADD_TOTAL_ITEMS;
+    payload: number
+}
+
+export const FETCH_BOOK_BY_ID_ASYNC = 'FETCH_BOOK_BY_ID_ASYNC'
+export type FetchBookByIdAsync = {
+    type: typeof FETCH_BOOK_BY_ID_ASYNC;
     payload: string
 }
 
@@ -131,5 +156,6 @@ export type AddFetchedBookById = {
 export type BooksSearchActionTypes =
     | FetchBooksAsync
     | AddFetchedBooks
-    | FetchBookById
-    | AddFetchedBookById;
+    | FetchBookByIdAsync
+    | AddFetchedBookById
+    | AddTotalItems;

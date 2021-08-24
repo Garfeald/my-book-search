@@ -1,24 +1,41 @@
 import { takeEvery, put, call, all } from 'redux-saga/effects';
 import {BooksSearchActionTypes} from "./types";
-import {addFetchedBooks} from "./actions";
+import {addFetchedBookById, addFetchedBooks, addTotalItems} from "./actions";
 import { api } from "../services/api/api";
 
-function* fetchCtyWeatherWorker(action: BooksSearchActionTypes): Generator {
+function* fetchBooksWorker(action: BooksSearchActionTypes): Generator {
     const { payload } = action;
     try {
         const res = yield call(api.fetch.fetchBooks, payload);
         if (res) {
             yield put(addFetchedBooks(res.data.items));
+            yield put(addTotalItems(res.data.totalItems))
         }
     } catch (e) {
         yield put({ type: 'REQUEST_FAILED', payload: e.toString() });
     }
 }
 
-function* searchMovieWatcher() {
-    yield takeEvery('FETCH_BOOKS_ASYNC', fetchCtyWeatherWorker);
+function* fetchBooksWatcher() {
+    yield takeEvery('FETCH_BOOKS_ASYNC', fetchBooksWorker);
+}
+
+function* fetchBookByIdWorker(action: BooksSearchActionTypes): Generator {
+    const { payload } = action;
+    try {
+        const res = yield call(api.fetch.fetchBookById, payload);
+        if (res) {
+            yield put(addFetchedBookById(res.data.items));
+        }
+    } catch (e) {
+        yield put({ type: 'REQUEST_FAILED', payload: e.toString() });
+    }
+}
+
+function* fetchBookByIdWatcher() {
+    yield takeEvery('FETCH_BOOK_BY_ID_ASYNC', fetchBookByIdWorker);
 }
 
 export function* rootSaga(): Generator {
-    yield all([searchMovieWatcher()]);
+    yield all([fetchBooksWatcher(), fetchBookByIdWatcher()]);
 }
