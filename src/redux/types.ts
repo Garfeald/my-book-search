@@ -95,6 +95,12 @@ export interface IBooksStore {
     searchValue?: string
 }
 
+export interface IBookDetails {
+    bookDetails: IBooks[] | null
+    isLoading?: boolean;
+    searchValue?: string
+}
+
 export type CardProps = {
     image: string,
     title: string,

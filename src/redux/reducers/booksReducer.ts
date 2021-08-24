@@ -1,4 +1,4 @@
-import {BooksSearchActionTypes, IBooksStore} from "../types";
+import {BooksSearchActionTypes, IBooks, IBooksStore} from "../types";
 
 export const getBooksState = ():IBooksStore => ({
     bookInfo: null,
