@@ -30,6 +30,7 @@ export const CardsList = ():ReactElement => {
                     title={book.volumeInfo.title ? book.volumeInfo.title : ''}
                     categories={book.volumeInfo.categories ? book.volumeInfo.categories[0] : ''}
                     authors={book.volumeInfo.authors ? book.volumeInfo.authors[0] : ''}
+                    id={book.id}
                 />
             )}
         </div>

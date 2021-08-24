@@ -1,9 +1,10 @@
 import { ReactElement } from "react";
+import {BookDetails} from "../components/Details";
 
 export const Details = ():ReactElement => {
     return (
         <div>
-            <h1>DETAILS!!!!!</h1>
+           <BookDetails/>
         </div>
     )
 }

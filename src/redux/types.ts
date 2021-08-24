@@ -99,7 +99,8 @@ export type CardProps = {
     image: string,
     title: string,
     categories: string,
-    authors: string
+    authors: string,
+    id: string
 }
 
 // action types
