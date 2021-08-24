@@ -19,7 +19,15 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            maxWidth: 345,
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        blockCard: {
+            maxWidth: '600px',
+            maxHeight: '750px'
         },
         media: {
             height: 0,
@@ -50,7 +58,8 @@ export const BookDetails = ():ReactElement => {
     };
 
     return (
-        <Card className={classes.root}>
+        <div className={classes.root}>
+        <Card className={classes.blockCard}>
             <CardHeader
                 avatar={
                     <Avatar aria-label="recipe" className={classes.avatar}>
@@ -122,5 +131,6 @@ export const BookDetails = ():ReactElement => {
                 </CardContent>
             </Collapse>
         </Card>
+        </div>
     );
 }

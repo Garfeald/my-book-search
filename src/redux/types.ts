@@ -117,9 +117,9 @@ export type AddFetchedBooks = {
     payload: IBooks[]
 }
 
-export const FETCH_BOOK_BY_ID = 'FETCH_BOOK_BY_ID'
-export type FetchBookById = {
-    type: typeof FETCH_BOOK_BY_ID;
+export const FETCH_BOOK_BY_ID_ASYNC = 'FETCH_BOOK_BY_ID_ASYNC'
+export type FetchBookByIdAsync = {
+    type: typeof FETCH_BOOK_BY_ID_ASYNC;
     payload: string
 }
 
@@ -132,5 +132,5 @@ export type AddFetchedBookById = {
 export type BooksSearchActionTypes =
     | FetchBooksAsync
     | AddFetchedBooks
-    | FetchBookById
+    | FetchBookByIdAsync
     | AddFetchedBookById;

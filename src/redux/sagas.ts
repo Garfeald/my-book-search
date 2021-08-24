@@ -32,7 +32,7 @@ function* fetchBookByIdWorker(action: BooksSearchActionTypes): Generator {
 }
 
 function* fetchBookByIdWatcher() {
-    yield takeEvery('FETCH_BOOKS_ASYNC', fetchBookByIdWorker);
+    yield takeEvery('FETCH_BOOK_BY_ID_ASYNC', fetchBookByIdWorker);
 }
 
 export function* rootSaga(): Generator {
