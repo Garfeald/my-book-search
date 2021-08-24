@@ -9,7 +9,7 @@ export const AppRouter = (): ReactElement => {
             <div>
                 <Switch>
                     <Route exact path="/" component={Main} />
-                    <Route exact path='/details/:id'component={Details}/>
+                    <Route exact path='/details/:id' component={Details}/>
                     <Redirect from="*" to="/" />
                 </Switch>
             </div>

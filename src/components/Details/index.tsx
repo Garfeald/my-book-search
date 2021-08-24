@@ -1,4 +1,4 @@
-import React, {ReactElement} from 'react';
+import React, {ReactElement, useEffect} from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -15,6 +15,10 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import {useDispatch, useSelector} from "react-redux";
+import {AppState} from "../../redux/reducers/rootReducer";
+import {IBooksStore} from "../../redux/types";
+import {fetchBookById} from "../../redux/actions";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -23,7 +27,8 @@ const useStyles = makeStyles((theme: Theme) =>
             height: '100%',
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            minHeight: '800px'
         },
         blockCard: {
             maxWidth: '600px',
@@ -50,8 +55,18 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const BookDetails = ():ReactElement => {
+
     const classes = useStyles();
+
     const [expanded, setExpanded] = React.useState(false);
+
+    const dispatch = useDispatch()
+
+    const searchId = window.location.href.split(':').pop()
+
+    useEffect(() => {
+        searchId && dispatch(fetchBookById(searchId))
+    }, [])
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
