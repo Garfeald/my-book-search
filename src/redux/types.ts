@@ -106,6 +106,7 @@ export interface IBookDetails {
 export interface ITotalItams {
     totalItems: number | null;
     isLoading?: boolean;
+    searchValue?: string;
 }
 
 export type CardProps = {
@@ -135,6 +136,12 @@ export type AddFetchedBooks = {
     payload: IBooks[]
 }
 
+export const FETCH_TOTAL_ITEMS_ASYNC = 'FETCH_TOTAL_ITEMS_ASYNC'
+export type FetchTotalItemsAsync = {
+    type: typeof FETCH_TOTAL_ITEMS_ASYNC;
+    payload: FetchBooksPayload
+}
+
 export const ADD_TOTAL_ITEMS = 'ADD_TOTAL_ITEMS'
 export type AddTotalItems = {
     type: typeof ADD_TOTAL_ITEMS;
@@ -158,4 +165,5 @@ export type BooksSearchActionTypes =
     | AddFetchedBooks
     | FetchBookByIdAsync
     | AddFetchedBookById
-    | AddTotalItems;
+    | AddTotalItems
+    | FetchTotalItemsAsync;

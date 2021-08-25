@@ -9,7 +9,6 @@ function* fetchBooksWorker(action: BooksSearchActionTypes): Generator {
         const res = yield call(api.fetch.fetchBooks, payload);
         if (res) {
             yield put(addFetchedBooks(res.data.items));
-            yield put(addTotalItems(res.data.totalItems))
         }
     } catch (e) {
         yield put({ type: 'REQUEST_FAILED', payload: e.toString() });
@@ -18,6 +17,22 @@ function* fetchBooksWorker(action: BooksSearchActionTypes): Generator {
 
 function* fetchBooksWatcher() {
     yield takeEvery('FETCH_BOOKS_ASYNC', fetchBooksWorker);
+}
+
+function* fetchTotalItemsWorker(action: BooksSearchActionTypes): Generator {
+    const { payload } = action;
+    try {
+        const res = yield call(api.fetch.fetchBooks, payload);
+        if (res) {
+            yield put(addTotalItems(res.data.totalItems));
+        }
+    } catch (e) {
+        yield put({ type: 'REQUEST_FAILED', payload: e.toString() });
+    }
+}
+
+function* fetchTotalItemsWatcher() {
+    yield takeEvery('FETCH_TOTAL_ITEMS_ASYNC', fetchTotalItemsWorker);
 }
 
 function* fetchBookByIdWorker(action: BooksSearchActionTypes): Generator {
@@ -37,5 +52,5 @@ function* fetchBookByIdWatcher() {
 }
 
 export function* rootSaga(): Generator {
-    yield all([fetchBooksWatcher(), fetchBookByIdWatcher()]);
+    yield all([fetchBooksWatcher(), fetchBookByIdWatcher(), fetchTotalItemsWatcher()]);
 }

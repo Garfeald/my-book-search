@@ -2,26 +2,16 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import { alpha, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import {Button, Card} from "@material-ui/core";
-import {api} from "../../services/api/api";
+import {Button} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchBooksAsync} from "../../redux/actions";
+import {fetchBooksAsync, fetchTotalItemsAsync} from "../../redux/actions";
 import {AppState} from "../../redux/reducers/rootReducer";
-import {FetchBooksPayload, IBooksStore, ITotalItams} from "../../redux/types";
+import {FetchBooksPayload, ITotalItams} from "../../redux/types";
 import './index.scss';
-import { CardsList } from '../CardsList';
 import Pagination from '@material-ui/lab/Pagination';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -116,6 +106,8 @@ export default function PrimarySearchAppBar() {
 
     const [fetchValue, setFetchValue] = useState<FetchBooksPayload>()
 
+    const [currentPage, setCurrentPage] = useState<number>(1)
+
     useEffect(() => {
         totalItems && setPageCount(Math.floor((totalItems / 16)))
     }, [totalItems])
@@ -123,34 +115,40 @@ export default function PrimarySearchAppBar() {
     const dispatch = useDispatch()
 
     const onChangeInput = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        e.preventDefault()
-        e.target.enterKeyHint
         const { value } = e.target
         setInputValue(value)
     }
 
     useEffect(() => {
-        pageNumber && setFetchValue({
+        pageNumber && inputValue && setFetchValue({
             searchValue: inputValue,
             pageNumber: pageNumber
         })
-        fetchValue && dispatch(fetchBooksAsync(fetchValue))
     }, [inputValue, pageNumber])
 
     const onFetchBooks = async () => {
         fetchValue && dispatch(fetchBooksAsync(fetchValue))
-        setInputValue('')
+        fetchValue && dispatch(fetchTotalItemsAsync(fetchValue))
     }
 
     const onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if(e.key === 'Enter' && inputValue) {
             fetchValue && dispatch(fetchBooksAsync(fetchValue))
-            setInputValue('')
+            fetchValue && dispatch(fetchTotalItemsAsync(fetchValue))
         }
     }
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-        setPageNumber(pageNumber + 16);
+        if (value !== currentPage && value > currentPage && pageCount && value < pageCount) {
+            setCurrentPage(value)
+            setPageNumber(pageNumber + 16);
+            fetchValue && dispatch(fetchBooksAsync(fetchValue))
+        }
+        if (value !== currentPage && value < currentPage && pageCount && value < pageCount) {
+            setCurrentPage(value)
+            setPageNumber(pageNumber - 16);
+            fetchValue && dispatch(fetchBooksAsync(fetchValue))
+        }
       };
 
     const base = 'Menu'
