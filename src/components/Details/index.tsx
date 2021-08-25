@@ -39,26 +39,12 @@ export const BookDetails = ():ReactElement => {
 
     const classes = useStyles();
 
-    const [expanded, setExpanded] = React.useState(false);
-
-    const dispatch = useDispatch()
-
-    const searchId = window.location.href.split(':').pop()
-
-    const { bookDetails, isLoading } = useSelector<AppState, IBookDetails>(state => state.bookDetails)
-
-    useEffect(() => {
-        searchId && dispatch(fetchBookById(searchId))
-    }, [])
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
+    const { bookDetails } = useSelector<AppState, IBookDetails>(state => state.bookDetails)
 
     return (
         <div className={classes.root}>
-            {(bookDetails && !isLoading) && bookDetails.map(book => (
-                <Card className={classes.blockCard}>
+            {bookDetails && bookDetails.map(book => (
+                <Card className={classes.blockCard} key={book.id}>
                     <CardHeader
                         title={book.volumeInfo.title}
                         subheader={book.volumeInfo.categories ? `Categories: ${book.volumeInfo.categories.toString()}` : ''}

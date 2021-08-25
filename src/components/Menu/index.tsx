@@ -10,7 +10,7 @@ import {Button} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchBooksAsync, fetchTotalItemsAsync} from "../../redux/actions";
 import {AppState} from "../../redux/reducers/rootReducer";
-import {FetchBooksPayload, ITotalItams} from "../../redux/types";
+import {FetchBooksPayload, IBooksStore, ITotalItams} from "../../redux/types";
 import './index.scss';
 import Pagination from '@material-ui/lab/Pagination';
 
@@ -94,11 +94,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function PrimarySearchAppBar() {
+
     const classes = useStyles();
 
     const [inputValue, setInputValue] = useState<string>()
 
     const { totalItems } = useSelector<AppState, ITotalItams>(state => state.totalItems)
+
+    const { searchValue } = useSelector<AppState, IBooksStore>(state => state.books)
 
     const [pageCount, setPageCount] = useState<number>()
 
@@ -107,6 +110,12 @@ export default function PrimarySearchAppBar() {
     const [fetchValue, setFetchValue] = useState<FetchBooksPayload>()
 
     const [currentPage, setCurrentPage] = useState<number>(1)
+
+    useEffect(() => {
+        setInputValue('')
+        setCurrentPage(1)
+        setPageNumber(1)
+    },[])
 
     useEffect(() => {
         totalItems && setPageCount(Math.floor((totalItems / 16)))
@@ -142,12 +151,12 @@ export default function PrimarySearchAppBar() {
         if (value !== currentPage && value > currentPage && pageCount && value < pageCount) {
             setCurrentPage(value)
             setPageNumber(pageNumber + 16);
-            fetchValue && dispatch(fetchBooksAsync(fetchValue))
+            fetchValue ? dispatch(fetchBooksAsync(fetchValue)) : searchValue && dispatch(fetchBooksAsync({searchValue: searchValue.searchValue, pageNumber: pageNumber}))
         }
         if (value !== currentPage && value < currentPage && pageCount && value < pageCount) {
             setCurrentPage(value)
             setPageNumber(pageNumber - 16);
-            fetchValue && dispatch(fetchBooksAsync(fetchValue))
+            fetchValue ? dispatch(fetchBooksAsync(fetchValue)) : searchValue && dispatch(fetchBooksAsync({searchValue: searchValue.searchValue, pageNumber: pageNumber}))
         }
       };
 
@@ -192,6 +201,7 @@ export default function PrimarySearchAppBar() {
                 count={pageCount} 
                 color="primary"
                 onChange={handlePageChange}
+                page={currentPage}
                 />
                 </div>}
         </div>
