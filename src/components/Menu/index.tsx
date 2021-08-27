@@ -112,12 +112,6 @@ export default function PrimarySearchAppBar() {
     const [currentPage, setCurrentPage] = useState<number>(1)
 
     useEffect(() => {
-        setInputValue('')
-        setCurrentPage(1)
-        setPageNumber(1)
-    },[])
-
-    useEffect(() => {
         totalItems && setPageCount(Math.floor((totalItems / 16)))
     }, [totalItems])
 
@@ -135,7 +129,7 @@ export default function PrimarySearchAppBar() {
         })
     }, [inputValue, pageNumber])
 
-    const onFetchBooks = async () => {
+    const onFetchBooks = () => {
         fetchValue && dispatch(fetchBooksAsync(fetchValue))
         fetchValue && dispatch(fetchTotalItemsAsync(fetchValue))
     }
