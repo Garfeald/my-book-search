@@ -1,13 +1,17 @@
-import { takeEvery, put, call, all } from 'redux-saga/effects';
+import { takeEvery, put, all } from 'redux-saga/effects';
 import {BooksSearchActionTypes} from "./types";
 import {addFetchedBookById, addFetchedBooks, addTotalItems} from "./actions";
 import { api } from "../services/api/api";
+import * as Effects from "redux-saga/effects";
 
 function* fetchBooksWorker(action: BooksSearchActionTypes): Generator {
     const { payload } = action;
+    const { fetchBooks } = api.fetch
+    const call: any = Effects.call
     try {
-        const res = yield call(api.fetch.fetchBooks, payload);
+        const res = yield call(fetchBooks, payload);
         if (res) {
+            // @ts-ignore
             yield put(addFetchedBooks(res.data.items));
         }
     } catch (e) {
@@ -21,9 +25,12 @@ function* fetchBooksWatcher() {
 
 function* fetchTotalItemsWorker(action: BooksSearchActionTypes): Generator {
     const { payload } = action;
+    const { fetchBooks } = api.fetch
+    const call: any = Effects.call
     try {
-        const res = yield call(api.fetch.fetchBooks, payload);
+        const res = yield call(fetchBooks, payload);
         if (res) {
+            // @ts-ignore
             yield put(addTotalItems(res.data.totalItems));
         }
     } catch (e) {
@@ -37,9 +44,12 @@ function* fetchTotalItemsWatcher() {
 
 function* fetchBookByIdWorker(action: BooksSearchActionTypes): Generator {
     const { payload } = action;
+    const { fetchBookById } = api.fetch
+    const call: any = Effects.call
     try {
-        const res = yield call(api.fetch.fetchBookById, payload);
+        const res = yield call(fetchBookById, payload);
         if (res) {
+            // @ts-ignore
             yield put(addFetchedBookById(res.data.items));
         }
     } catch (e) {
